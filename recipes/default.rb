@@ -25,20 +25,20 @@
 #
 
 service "networking" do
-  service_name "networking"
-  case node["platform"]
-  when "ubuntu"
-    if node["platform_version"].to_f >= 9.10
-      provider Chef::Provider::Service::Upstart
+    service_name "networking"
+    case node["platform"]
+    when "ubuntu"
+        if node["platform_version"].to_f >= 9.10
+            provider Chef::Provider::Service::Upstart
+        end
     end
-  end
-  action :restart
+    action :restart
 end
 
 fqdn = node['set_fqdn']
 
-if fqdn != node.name 
-    if !fqdn
+unless fqdn === node.hostname 
+    unless fqdn
         log "Please set the set_fqdn attribute to desired hostname" do
             level :warn
         end
