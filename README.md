@@ -1,31 +1,24 @@
 # DESCRIPTION:
 
-Sets hostname and FQDN of the node.
+Sets hostname of the node. 
 
-# ATTRIBUTES:
+This is intended to set the hostname of a new vm when running knife bootstrap. 
+Requires the --node-name parameter is specified when running the bootstrap. e.g.:
 
-`set_fqdn` - FQDN to set.
+    knife bootstrap saucy64 --node-name chef-set-hostname --run-list 'recipe[hostname],role[base]' 
 
-The asterisk character will be replaced with `node.name`. This way,
-you can add to base role this:
-
-```ruby
-default_attributes :set_fqdn => '*.project-domain.com'
-```
-
-and have node set its FQDN and hostname based on its chef node name
-(which is provided on `chef-client` first run's command line).
+    knife bootstrap 192.168.1.15 --node-name chef-set-hostname --run-list 'recipe[hostname],role[base]' --environment test
 
 # RECIPES:
 
 ## default
 
-Will set node's FQDN to value of `set_fqdn` attribute, and hostname to
-its host part (up to first dot).
+Will set node's hostname to value of node['name']
+Compares ohai detected attribute node['hostname'] to node['name'] to determine if run is required
 
 ## vmware
 
 `hostname::vmware` recipe sets hostname automatically using vmtoolsd.
 You do not need to set node["set_fqdn"].
 
-The latest code is hosted at https://github.com/3ofcoins/chef-cookbook-hostname
+If you intend to use this recipe, it is suggested you use the original: https://github.com/3ofcoins/chef-cookbook-hostname
