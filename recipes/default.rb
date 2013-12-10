@@ -1,8 +1,10 @@
 #
-# Cookbook Name:: hostname
+# Cookbook Name:: set_hostname
 # Recipe:: default
 #
-# Copyright 2011, Maciej Pasternacki
+# Copyright 2013, Jon A
+# forked from 3ofcoins / chef-cookbook-hostname: https://github.com/3ofcoins/chef-cookbook-hostname
+# See COPYRIGHT for original copyright notification
 #
 # Permission is hereby granted, free of charge, to any person obtaining
 # a copy of this software and associated documentation files (the
@@ -22,7 +24,7 @@
 # LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#
+
 
 unless node.name === node.hostname 
     hostname = node.name
@@ -70,6 +72,6 @@ unless node.name === node.hostname
 else
     log "hostname set" do
         message "hostname matches node name, not doing anything"
-        level :info
+        level :warn
     end
 end
