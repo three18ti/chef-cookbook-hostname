@@ -40,7 +40,7 @@ unless node.name === node.hostname
     hostsfile_entry "localhost" do
         ip_address "127.0.0.1"
         hostname "localhost"
-        action :create
+        action    :create_if_missing
     end
 
     hostname_entry = hostsfile_entry "set hostname" do
@@ -68,7 +68,8 @@ unless node.name === node.hostname
         action :restart
     end
 else
-    log "hostname already set, not doing anything" do
-        level :warn
+    log "hostname set" do
+        message "hostname matches node name, not doing anything"
+        level :info
     end
 end
