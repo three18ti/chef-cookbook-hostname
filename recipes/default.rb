@@ -24,42 +24,61 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
+service "networking" do
+  service_name "networking"
+  case node["platform"]
+  when "ubuntu"
+    if node["platform_version"].to_f >= 9.10
+      provider Chef::Provider::Service::Upstart
+    end
+  end
+  action :restart
+end
+
 fqdn = node['set_fqdn']
-if fqdn
-  fqdn = fqdn.sub('*', node.name)
-  fqdn =~ /^([^.]+)/
-  hostname = $1
 
-  file '/etc/hostname' do
-    content "#{hostname}\n"
-    mode "0644"
-    notifies :reload, "ohai[reload]"
-  end
+if fqdn != node.name 
+    if !fqdn
+        log "Please set the set_fqdn attribute to desired hostname" do
+            level :warn
+        end
+    else
+        fqdn = fqdn.sub('*', node.name)
+        fqdn =~ /^([^.]+)/
+        hostname = $1
 
-  execute "hostname #{hostname}" do
-    only_if { node['hostname'] != hostname }
-    notifies :reload, "ohai[reload]"
-  end
+        file '/etc/hostname' do
+            content "#{hostname}\n"
+            mode "0644"
+            notifies :reload, "ohai[reload]"
+        end
 
-  hostsfile_entry "localhost" do
-   ip_address "127.0.0.1"
-   hostname "localhost"
-   action :create
-  end
+        execute "hostname #{hostname}" do
+            only_if { node['hostname'] != hostname }
+            notifies :reload, "ohai[reload]"
+            notifies :restart, "service[networking]"
+        end
 
-  hostsfile_entry "set hostname" do
-    ip_address "127.0.1.1"
-    hostname fqdn
-    aliases [ hostname ]
-    action :create
-    notifies :reload, "ohai[reload]"
-  end
+        hostsfile_entry "localhost" do
+            ip_address "127.0.0.1"
+            hostname "localhost"
+            action :create
+        end
 
-  ohai "reload" do
-    action :nothing
-  end
+        hostsfile_entry "set hostname" do
+            ip_address "127.0.1.1"
+            hostname fqdn
+            aliases [ hostname ]
+            action :create
+            notifies :reload, "ohai[reload]"
+        end
+
+        ohai "reload" do
+            action :nothing
+        end
+    end
 else
-  log "Please set the set_fqdn attribute to desired hostname" do
-    level :warn
-  end
+    log "hostname already set, not doing anything" do
+        level :warn
+    end
 end
