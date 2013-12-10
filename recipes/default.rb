@@ -30,7 +30,6 @@ unless node.name === node.hostname
     hostname_file = file '/etc/hostname' do
         content "#{hostname}\n"
         mode "0644"
-        notifies :reload, "ohai[reload]"
     end
     
     exec_hostname = execute "hostname #{hostname}" do
