@@ -1,10 +1,10 @@
-name             "hostname"
-maintainer       "Maciej Pasternacki"
-maintainer_email "maciej@pasternacki.net"
+name             "set_hostname"
+maintainer       "Jon A"
+maintainer_email "three18ti@gmail.com"
 license          "MIT"
-description      "Configures hostname and FQDN"
+description      "Configures hostname"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.1.0"
+version          "0.1.1"
 
 supports "debian"
 supports "ubuntu"

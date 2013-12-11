@@ -22,3 +22,4 @@ Compares ohai detected attribute node['hostname'] to node['name'] to determine i
 You do not need to set node["set_fqdn"].
 
 If you intend to use this recipe, it is suggested you use the original: https://github.com/3ofcoins/chef-cookbook-hostname
+As this recipe is no longer compatible with set_hostname
