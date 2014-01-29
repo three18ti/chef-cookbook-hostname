@@ -1,3 +1,7 @@
+# NAME:
+
+set_hostname
+
 # DESCRIPTION:
 
 Sets hostname of the node. 
@@ -5,9 +9,9 @@ Sets hostname of the node.
 This is intended to set the hostname of a new vm when running knife bootstrap. 
 Requires the --node-name parameter is specified when running the bootstrap. e.g.:
 
-    knife bootstrap saucy64 --node-name chef-set-hostname --run-list 'recipe[hostname],role[base]' 
+    knife bootstrap saucy64 --node-name chef-set-hostname --run-list 'recipe[set_hostname],role[base]' 
 
-    knife bootstrap 192.168.1.15 --node-name chef-set-hostname --run-list 'recipe[hostname],role[base]' --environment test
+    knife bootstrap 192.168.1.15 --node-name chef-set-hostname --run-list 'recipe[set_hostname],role[base]' --environment test
 
 # RECIPES:
 

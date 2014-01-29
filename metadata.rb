@@ -8,5 +8,7 @@ version          "0.1.1"
 
 supports "debian"
 supports "ubuntu"
+supports "rhel"
+supports "fedora"
 
 depends "hostsfile"
