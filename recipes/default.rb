@@ -60,13 +60,18 @@ unless node.name === node.hostname
     end
 
     service "networking" do
-        service_name "networking"
         case node["platform"]
         when "ubuntu"
+            service_name "networking"
             if node["platform_version"].to_f >= 9.10
                 provider Chef::Provider::Service::Upstart
             end
+        when "fedora"
+            service_name "network"
+        else 
+            service_name "network"            
         end
+
         action :restart
     end
 else
