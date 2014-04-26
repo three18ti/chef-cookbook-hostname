@@ -59,12 +59,16 @@ unless node.name === node.hostname
         action :reload
     end
 
+    # should probably do this with a dhclient restart (since there's no need to restart networking when we're not on dhcp
     service "networking" do
         case node["platform"]
         when "ubuntu"
             service_name "networking"
-            if node["platform_version"].to_f >= 9.10
+            if node["platform_version"].to_f >= 9.10 && node["platform_version"].to_f < 14.04
                 provider Chef::Provider::Service::Upstart
+            else 
+                # dummy else, since 14.04 no longer supports networking "restart"
+                service_name "networking"
             end
         when "fedora"
             service_name "network"
