@@ -70,13 +70,17 @@ unless node.name === node.hostname
                 # dummy else, since 14.04 no longer supports networking "restart"
                 service_name "networking"
             end
+            execute "restart dhclient" do
+                command "echo 'restarting dhclient'; dhclient -r -v; dhclient -v;"
+            end
         when "fedora"
             service_name "network"
+            action :restart
         else 
-            service_name "network"            
+            service_name "network"
+            action :restart
         end
 
-        action :restart
     end
 else
     log "hostname set" do
