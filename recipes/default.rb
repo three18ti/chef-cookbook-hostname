@@ -36,7 +36,7 @@ unless node.name === node.hostname
     
     exec_hostname = execute "hostname #{hostname}" do
         only_if { node['hostname'] != hostname }
-        notifies :restart, "service[networking]"
+#        notifies :restart, "service[networking]"
     end
 
     hostsfile_entry "localhost" do
@@ -60,28 +60,29 @@ unless node.name === node.hostname
     end
 
     # should probably do this with a dhclient restart (since there's no need to restart networking when we're not on dhcp
-    service "networking" do
-        case node["platform"]
-        when "ubuntu"
-            service_name "networking"
-            if node["platform_version"].to_f >= 9.10 && node["platform_version"].to_f < 14.04
-                provider Chef::Provider::Service::Upstart
-            else 
-                # dummy else, since 14.04 no longer supports networking "restart"
-                service_name "networking"
-            end
-            execute "restart dhclient" do
-                command "echo 'restarting dhclient'; dhclient -r -v; dhclient -v;"
-            end
-        when "fedora"
-            service_name "network"
-            action :restart
-        else 
-            service_name "network"
-            action :restart
-        end
-
+    execute "restart dhclient" do
+        command "echo 'restarting dhclient'; dhclient -r -v; dhclient -v;"
+        action :run
     end
+
+#    service "networking" do
+#        case node["platform"]
+#        when "ubuntu"
+#            service_name "networking"
+#            if node["platform_version"].to_f >= 9.10 && node["platform_version"].to_f < 14.04
+#                provider Chef::Provider::Service::Upstart
+#            else 
+                # dummy else, since 14.04 no longer supports networking "restart"
+#                service_name "networking"
+#            end
+#        when "fedora"
+#            service_name "network"
+#            action :restart
+#        else 
+#            service_name "network"
+#            action :restart
+#        end
+#    end
 else
     log "hostname set" do
         message "hostname matches node name, not doing anything"
