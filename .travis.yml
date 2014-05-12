@@ -1,6 +1,7 @@
 language: ruby
 
 before_install:
+  - bundle install
   - sudo apt-get -y install vagrant
 
 gemfile:
@@ -10,6 +11,5 @@ rvm:
   - 1.9.2
   - 1.9.3
 
-script:
+script: 
   - bundle exec rake foodcritic
-  - bundle exec rake test
