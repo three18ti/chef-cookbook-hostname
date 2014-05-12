@@ -8,7 +8,7 @@ describe 'hostname::default' do
     chef_run.converge 'hostname'
 
     expect(chef_run).to create_file_with_content '/etc/hostname', "test\n"
-    expect(chef_run).to execute_command "hostname test"
+    expect(chef_run).to execute_command 'hostname test'
   end
 
   it "substitutes star to node's name" do
@@ -17,6 +17,6 @@ describe 'hostname::default' do
     chef_run.converge 'hostname'
 
     expect(chef_run).to create_file_with_content '/etc/hostname', "test\n"
-    expect(chef_run).to execute_command "hostname test"
+    expect(chef_run).to execute_command 'hostname test'
   end
 end

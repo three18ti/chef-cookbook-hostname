@@ -1,6 +1,6 @@
 require File.expand_path('../support/helpers', __FILE__)
 
-describe "recipe::hostname::default" do
+describe 'recipe::hostname::default' do
   include Helpers::HostnameTest
 
   it 'sets hostname to "test"' do
