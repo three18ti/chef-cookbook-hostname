@@ -88,4 +88,5 @@ else
         message "hostname matches node name, not doing anything"
         level :warn
     end
+    return
 end
