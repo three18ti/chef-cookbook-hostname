@@ -26,8 +26,8 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-unless node.name === node.hostname 
-    hostname = node.name
+unless node['name' === node['hostname'] 
+    hostname = node['name']
 
     hostname_file = file '/etc/hostname' do
         content "#{hostname}\n"

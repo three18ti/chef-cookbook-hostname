@@ -31,5 +31,5 @@ if !FileTest.executable?("/usr/sbin/vmtoolsd")
   Chef::Application.fatal!("/usr/sbin/vmtoolsd is not found or not executable.")
 end
 
-node.default['set_fqdn'] = `/usr/sbin/vmtoolsd --cmd 'info-get guestinfo.hostname'`.chomp
-include_recipe 'hostname::default'
+#node.default['set_fqdn'] = `/usr/sbin/vmtoolsd --cmd 'info-get guestinfo.hostname'`.chomp
+#include_recipe 'hostname::default'
