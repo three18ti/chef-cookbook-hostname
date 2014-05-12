@@ -13,3 +13,4 @@ rvm:
 
 script: 
   - bundle exec rake foodcritic
+  - bundle exec rake test
